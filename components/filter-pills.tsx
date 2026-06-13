@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 
-export interface FilterPillOption<T extends string = string> {
+interface FilterPillOption<T extends string = string> {
   label: string;
   value: T;
 }

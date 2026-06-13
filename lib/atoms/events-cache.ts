@@ -2,7 +2,7 @@ import { atom, getDefaultStore } from "jotai";
 import { getTrendingEvents } from "@/lib/api/gamma";
 import type { Event, SortOrder } from "@/lib/types/polymarket";
 
-export const TRENDING_CACHE_TTL_MS = 60_000;
+const TRENDING_CACHE_TTL_MS = 60_000;
 
 interface CacheEntry {
   data: Event[];
@@ -10,7 +10,7 @@ interface CacheEntry {
 }
 
 /** Jotai-backed write-through cache for trending events (client session). */
-export const trendingEventsCacheAtom = atom<Record<string, CacheEntry>>({});
+const trendingEventsCacheAtom = atom<Record<string, CacheEntry>>({});
 
 function cacheKey(order: SortOrder, ascending: boolean, limit: number): string {
   return `${order}:${ascending}:${limit}`;

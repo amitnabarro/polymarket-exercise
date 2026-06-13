@@ -1,5 +1,5 @@
 import type { Event, Market } from "@/lib/types/polymarket";
-import { parseJsonArray } from "./format";
+import { getYesPrice } from "./market";
 
 interface MatchupOdds {
   teamA: string;
@@ -8,13 +8,6 @@ interface MatchupOdds {
   teamBPrice: number;
   drawPrice?: number;
   gameTime?: string;
-}
-
-function getYesPrice(market: Market): number {
-  const outcomes = parseJsonArray<string>(market.outcomes);
-  const prices = parseJsonArray<string>(market.outcomePrices).map(Number);
-  const yesIdx = outcomes.findIndex((o) => o === "Yes");
-  return yesIdx >= 0 ? prices[yesIdx] : prices[0] ?? 0;
 }
 
 export function parseMatchupEvent(event: Event): MatchupOdds | null {

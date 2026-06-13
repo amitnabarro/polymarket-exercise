@@ -23,12 +23,12 @@ function priceFromBook(bids?: { price: string }[], asks?: { price: string }[]): 
   return midpoint(bestBid, bestAsk);
 }
 
-export interface MarketSocketCallbacks {
+interface MarketSocketCallbacks {
   onPriceUpdate: (assetId: string, price: LivePrice) => void;
   onStatusChange: (status: WsStatus) => void;
 }
 
-export class MarketSocket {
+class MarketSocket {
   private ws: WebSocket | null = null;
   private pingTimer: ReturnType<typeof setInterval> | null = null;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -257,9 +257,4 @@ export function getMarketSocket(callbacks: MarketSocketCallbacks): MarketSocket 
     });
   }
   return socketInstance;
-}
-
-export function resetMarketSocket() {
-  socketInstance?.disconnect();
-  socketInstance = null;
 }

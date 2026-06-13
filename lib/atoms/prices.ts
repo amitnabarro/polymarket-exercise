@@ -19,11 +19,6 @@ export const activeAssetIdsKeyAtom = atom((get) => {
     .join(",");
 });
 
-export const activeAssetIdsAtom = atom((get) => {
-  const key = get(activeAssetIdsKeyAtom);
-  return key ? key.split(",") : [];
-});
-
 export const setLivePriceAtom = atom(
   null,
   (_get, set, update: { assetId: string; price: LivePrice }) => {

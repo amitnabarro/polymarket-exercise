@@ -32,7 +32,7 @@ function buildParams(params: Record<string, string | number | boolean | undefine
   return qs ? `?${qs}` : "";
 }
 
-export async function getEvents(params: EventsParams = {}): Promise<Event[]> {
+async function getEvents(params: EventsParams = {}): Promise<Event[]> {
   const qs = buildParams({
     limit: params.limit ?? 24,
     offset: params.offset ?? 0,

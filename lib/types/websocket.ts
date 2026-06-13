@@ -1,4 +1,4 @@
-export type WsEventType =
+type WsEventType =
   | "book"
   | "price_change"
   | "last_trade_price"
@@ -7,7 +7,7 @@ export type WsEventType =
   | "new_market"
   | "market_resolved";
 
-export interface PriceChange {
+interface PriceChange {
   asset_id: string;
   price: string;
   size: string;

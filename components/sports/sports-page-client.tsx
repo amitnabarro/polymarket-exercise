@@ -4,7 +4,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import {
-  sportsEventsAtom,
   sportsFuturesEventsAtom,
   sportsMatchupEventsAtom,
   sportsSubTagsAtom,
