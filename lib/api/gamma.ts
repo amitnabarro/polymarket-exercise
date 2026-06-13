@@ -79,6 +79,7 @@ async function getRelatedTags(slug: string): Promise<RelatedTagLink[]> {
 
 export const POLITICS_TAG_ID = "2";
 export const SPORTS_TAG_ID = "1";
+export const CRYPTO_TAG_ID = "21";
 
 export async function getCategorySubTags(
   categorySlug: string
