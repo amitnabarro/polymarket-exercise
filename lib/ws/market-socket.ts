@@ -1,4 +1,5 @@
 import type { LivePrice, WsMessage, WsStatus } from "@/lib/types/websocket";
+import { clampProbability } from "@/lib/utils/price";
 
 const WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market";
 const PING_INTERVAL_MS = 10_000;
@@ -196,9 +197,9 @@ export class MarketSocket {
   private emitPrice(assetId: string, price: number, bestBid?: number, bestAsk?: number) {
     if (!assetId || !Number.isFinite(price)) return;
     this.callbacks.onPriceUpdate(assetId, {
-      price,
-      bestBid,
-      bestAsk,
+      price: clampProbability(price),
+      bestBid: bestBid !== undefined ? clampProbability(bestBid) : undefined,
+      bestAsk: bestAsk !== undefined ? clampProbability(bestAsk) : undefined,
       updatedAt: Date.now(),
     });
   }

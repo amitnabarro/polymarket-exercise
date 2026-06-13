@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useSubscribePrices } from "@/lib/hooks/use-subscribe-prices";
 import type { Event } from "@/lib/types/polymarket";
-import { formatVolume } from "@/lib/utils/format";
+import { formatCount, formatVolume } from "@/lib/utils/format";
 import { isBinaryMarket } from "@/lib/utils/market";
 import { getAllEventTokenIds } from "@/lib/utils/tokens";
 import { EventOutcomesList } from "./event/event-outcomes-list";
@@ -54,7 +54,7 @@ export function EventPageClient({ event }: EventPageClientProps) {
               </div>
               <div className="flex justify-between">
                 <dt className="text-muted-foreground">Comments</dt>
-                <dd className="font-medium">{event.commentCount.toLocaleString()}</dd>
+                <dd className="font-medium">{formatCount(event.commentCount)}</dd>
               </div>
             </dl>
           </div>

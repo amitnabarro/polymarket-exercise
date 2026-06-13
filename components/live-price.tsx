@@ -3,6 +3,7 @@
 import { useAtomValue } from "jotai";
 import { memo, useEffect, useRef } from "react";
 import { livePriceAtomFamily } from "@/lib/atoms/prices";
+import { useHydrated } from "@/lib/hooks/use-hydrated";
 import { formatCents, formatPercent, formatPercentPrecise } from "@/lib/utils/format";
 
 type PriceFormat = "percent" | "percent-precise" | "cents";
@@ -33,8 +34,9 @@ export const LivePrice = memo(function LivePrice({
   animate = true,
   format = "percent",
 }: LivePriceProps) {
+  const hydrated = useHydrated();
   const live = useAtomValue(livePriceAtomFamily(tokenId ?? ""));
-  const price = live?.price ?? fallback;
+  const price = hydrated && live?.price !== undefined ? live.price : fallback;
   const ref = useRef<HTMLSpanElement>(null);
   const prevPrice = useRef(price);
 

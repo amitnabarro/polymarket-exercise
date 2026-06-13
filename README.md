@@ -62,6 +62,15 @@ Styling uses **[Tailwind CSS v4](https://tailwindcss.com)** with the PostCSS plu
 
 Components use utility classes throughout — responsive grids (`sm:grid-cols-2`, `lg:grid-cols-3`), sticky sidebars (`sticky top-20`), pill filters, and card layouts. Yes/No buttons use semantic `text-yes` / `text-no` colors from the theme.
 
+### Price model
+
+Polymarket prices are **0–1 implied probabilities** (e.g. `0.65` = 65% chance). The UI treats them that way end-to-end:
+
+- `lib/utils/price.ts` — `clampProbability()` and `toImpliedPercent()` normalize API/WS values before display.
+- `lib/utils/format.ts` — `formatPercent`, `formatPercentPrecise`, and `formatCents` all derive from that 0–1 model.
+- `ImpliedProbabilityBar` — bar width = `price × 100`.
+- Multi-outcome cards show each outcome's **Yes** and **No** prices from the API (not `1 − yes`).
+
 ### Realtime WebSocket
 
 `lib/ws/market-socket.ts` implements a singleton WebSocket client to Polymarket's CLOB subscription endpoint. It:

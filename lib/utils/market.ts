@@ -7,6 +7,8 @@ interface MarketOutcome {
   price: number;
   percent: string;
   tokenId?: string;
+  noPrice?: number;
+  noTokenId?: string;
 }
 
 export function getMarketOutcomes(market: Market): MarketOutcome[] {
@@ -30,12 +32,15 @@ export function getTopOutcomes(event: Event, count = 2): MarketOutcome[] {
   return markets.slice(0, count).map((market) => {
     const outcomes = getMarketOutcomes(market);
     const yes = outcomes.find((o) => o.label === "Yes") ?? outcomes[0];
+    const no = outcomes.find((o) => o.label === "No") ?? outcomes[1];
     const yesPrice = yes?.price ?? 0;
     return {
       label: market.groupItemTitle || market.question,
       price: yesPrice,
       percent: formatPercent(yesPrice),
       tokenId: yes?.tokenId,
+      noPrice: no?.price,
+      noTokenId: no?.tokenId,
     };
   });
 }

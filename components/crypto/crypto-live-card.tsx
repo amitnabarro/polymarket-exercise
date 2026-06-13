@@ -46,20 +46,14 @@ export const CryptoLiveCard = memo(function CryptoLiveCard({ event }: CryptoLive
 
       {up && down ? (
         <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            className="flex flex-col items-center rounded-lg bg-yes/12 py-3 ring-1 ring-yes/25"
-          >
+          <span className="flex flex-col items-center rounded-lg bg-yes/12 py-3 ring-1 ring-yes/25">
             <span className="text-xs text-yes/80">Up</span>
             <LivePrice tokenId={up.tokenId} fallback={up.price} className="text-lg font-bold text-yes" />
-          </button>
-          <button
-            type="button"
-            className="flex flex-col items-center rounded-lg bg-no/12 py-3 ring-1 ring-no/25"
-          >
+          </span>
+          <span className="flex flex-col items-center rounded-lg bg-no/12 py-3 ring-1 ring-no/25">
             <span className="text-xs text-no/80">Down</span>
             <LivePrice tokenId={down.tokenId} fallback={down.price} className="text-lg font-bold text-no" />
-          </button>
+          </span>
         </div>
       ) : null}
     </Link>

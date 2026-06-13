@@ -18,13 +18,16 @@ interface SportsMatchupCardProps {
 
 function formatGameTime(iso?: string): string {
   if (!iso) return "";
-  const date = new Date(iso.replace(" ", "T"));
+  const normalized = iso.includes("T") ? iso : iso.replace(" ", "T");
+  const hasTz = /[zZ]|[+-]\d{2}:\d{2}$/.test(normalized);
+  const date = new Date(hasTz ? normalized : `${normalized}Z`);
   if (Number.isNaN(date.getTime())) return "";
   return date.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZone: "UTC",
   });
 }
 
@@ -42,12 +45,9 @@ function TeamOdds({
   return (
     <div className={`flex flex-1 flex-col ${align === "right" ? "items-end text-right" : ""}`}>
       <span className="mb-1 line-clamp-2 text-sm font-medium">{name}</span>
-      <button
-        type="button"
-        className="rounded-lg bg-yes/12 px-4 py-2 text-sm font-semibold text-yes ring-1 ring-yes/20 hover:bg-yes/20"
-      >
+      <span className="rounded-lg bg-yes/12 px-4 py-2 text-sm font-semibold text-yes ring-1 ring-yes/20">
         <LivePrice tokenId={tokenId} fallback={price} className="font-semibold" />
-      </button>
+      </span>
     </div>
   );
 }
@@ -108,16 +108,13 @@ export const SportsMatchupCard = memo(function SportsMatchupCard({
       {matchup.drawPrice !== undefined && (
         <div className="flex items-center justify-center gap-2 border-t border-border pt-3">
           <span className="text-xs text-muted-foreground">Draw</span>
-          <button
-            type="button"
-            className="rounded-md bg-muted px-3 py-1 text-xs font-semibold hover:bg-muted/80"
-          >
+          <span className="rounded-md bg-muted px-3 py-1 text-xs font-semibold">
             <LivePrice
               tokenId={drawToken}
               fallback={matchup.drawPrice}
               className="text-xs font-semibold"
             />
-          </button>
+          </span>
         </div>
       )}
     </Link>

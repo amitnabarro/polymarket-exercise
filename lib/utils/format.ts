@@ -1,3 +1,5 @@
+import { clampProbability, toImpliedPercent } from "./price";
+
 export function parseJsonArray<T>(value: string): T[] {
   try {
     return JSON.parse(value) as T[];
@@ -16,20 +18,21 @@ export function formatVolume(value: number | undefined): string {
 }
 
 export function formatPercent(price: number): string {
-  const pct = price * 100;
+  const pct = toImpliedPercent(price);
   if (pct < 1 && pct > 0) return "<1%";
   if (pct > 99 && pct < 100) return ">99%";
   return `${Math.round(pct)}%`;
 }
 
 export function formatPercentPrecise(price: number): string {
-  const pct = price * 100;
+  const pct = toImpliedPercent(price);
   if (pct < 0.1 && pct > 0) return "<0.1%";
+  if (pct > 99.9 && pct < 100) return ">99.9%";
   return `${pct.toFixed(1)}%`;
 }
 
 export function formatCents(price: number): string {
-  const cents = price * 100;
+  const cents = clampProbability(price) * 100;
   if (cents < 0.1 && cents > 0) return "<0.1¢";
   return `${cents.toFixed(1)}¢`;
 }
@@ -40,10 +43,15 @@ export function formatDate(dateStr: string): string {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
 export function formatPnl(value: number): string {
   const prefix = value >= 0 ? "+" : "";
   return `${prefix}${formatVolume(value)}`;
+}
+
+export function formatCount(value: number): string {
+  return value.toLocaleString("en-US");
 }

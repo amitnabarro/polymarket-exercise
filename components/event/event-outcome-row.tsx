@@ -7,6 +7,7 @@ import { getMarketOutcomes } from "@/lib/utils/market";
 import { getMarketTokenIds } from "@/lib/utils/tokens";
 import { useSubscribePrices } from "@/lib/hooks/use-subscribe-prices";
 import { LivePrice } from "@/components/live-price";
+import { ImpliedProbabilityBar } from "@/components/implied-probability-bar";
 import { MarketImage } from "@/components/market-image";
 
 interface EventOutcomeRowProps {
@@ -26,7 +27,6 @@ export const EventOutcomeRow = memo(function EventOutcomeRow({
   const yes = outcomes.find((o) => o.label === "Yes") ?? outcomes[0];
   const no = outcomes.find((o) => o.label === "No") ?? outcomes[1];
   const volume = formatVolume(market.volumeNum || Number(market.volume));
-  const pct = Math.min(100, Math.max(0, (yes?.price ?? 0) * 100));
   const isBinary = variant === "binary" || (outcomes.length === 2 && yes?.label === "Yes");
 
   if (!yes) return null;
@@ -53,12 +53,11 @@ export const EventOutcomeRow = memo(function EventOutcomeRow({
         </div>
       </div>
 
-      <div className="mb-3 h-2 overflow-hidden rounded-full bg-muted">
-        <div
-          className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
+      <ImpliedProbabilityBar
+        tokenId={yes.tokenId}
+        fallback={yes.price}
+        className="mb-3 h-2"
+      />
 
       {yes && no && (
         <div className="flex gap-2">
